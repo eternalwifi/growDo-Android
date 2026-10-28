@@ -20,22 +20,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Accept Licenses via SDKManager
+      - name: Accept Android Licenses
         run: |
-          yes | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --licenses || yes | ${ANDROID_HOME}/tools/bin/sdkmanager --licenses || true
-
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.7'
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
       - name: Extract project ZIP
         run: |
           unzip -o growDo_Android_Project.zip -d extracted
-          find extracted -name settings.gradle -print
 
       - name: Build APK
         run: |
@@ -50,4 +41,3 @@ jobs:
           name: growDo-APK
           path: extracted/**/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
-          
